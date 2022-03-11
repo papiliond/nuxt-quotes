@@ -1,6 +1,6 @@
 <template>
   <main class="pa3">
-    <h1>Nuxt demo</h1>
+    <h1>Programmer's Quotes</h1>
     <nav class="pa2">
       <NuxtLink to="/about">About</NuxtLink>
       <h2>Authors</h2>
@@ -33,6 +33,11 @@ export default Vue.extend({
     }))
 
     return { authorLinks }
+  },
+  head() {
+    return {
+      title: "Programmer's Quotes",
+    }
   },
 })
 </script>

@@ -23,21 +23,33 @@ export default {
       }
     }
     const wikiPage = author.wikiUrl.split('/').pop()
-    let rawHtml = ''
 
-    try {
-      const { data: wiki } = await $axios.get(
+    const { data: wiki } = await $axios
+      .get(
         `http://en.wikipedia.org/w/api.php?origin=*&action=parse&format=json&prop=text&section=0&page=${encodeURIComponent(
           wikiPage
         )}`
       )
+      .catch(() => {
+        throw {
+          statusCode: 500,
+          message: `Sorry, We couldn't get any data for "${params.author}".`,
+        }
+      })
 
-      rawHtml = wiki.parse.text['*']
-    } catch (error) {
-      console.log(error)
-    }
+    const rawHtml = wiki.parse
+      ? wiki.parse.text['*'].replace(
+          /\/wiki\//g,
+          'https://en.wikipedia.org/wiki/'
+        )
+      : ''
 
     return { author, rawHtml }
+  },
+  head() {
+    return {
+      title: this.author.name,
+    }
   },
   methods: {
     handleQuotesButtonClicked() {

@@ -1,6 +1,11 @@
 <template>
   <main class="pa3">
     <h1>Quotes from {{ author.name }}</h1>
+    <mav class="flex mb3">
+      <NuxtLink :to="`/authors/${encodeURIComponent(author.name)}`"
+        >Author's page</NuxtLink
+      >
+    </mav>
     <div class="flex flex-column">
       <q v-for="quote in author.quotes" :key="quote.id" class="pa2">
         {{ quote.en }}</q
@@ -24,6 +29,11 @@ export default {
     }
 
     return { author }
+  },
+  head() {
+    return {
+      title: 'Quotes from ' + this.author.name,
+    }
   },
 }
 </script>
